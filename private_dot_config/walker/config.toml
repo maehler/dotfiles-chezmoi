@@ -1,0 +1,32 @@
+[providers]
+default = [
+    "desktopapplications",
+    "websearch",
+    "calc",
+] 
+empty = ["desktopapplications"]
+
+[[providers.prefixes]]
+prefix = "="
+provider = "calc"
+
+[[providers.prefixes]]
+prefix = "u"
+provider = "unicode"
+
+[[providers.prefixes]]
+prefix = "@"
+provider = "websearch"
+
+[[providers.prefixes]]
+prefix = "b"
+provider = "bluetooth"
+
+[[providers.prefixes]]
+prefix = "w"
+provider = "windows"
+
+[providers.actions]
+unicode = [
+    { action = "save", label = "save", bind = "ctrl s", after = "AsyncReload" }
+]

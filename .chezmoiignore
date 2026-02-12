@@ -1,0 +1,9 @@
+README.md
+LICENSE
+{{- if ne .chezmoi.os "linux" }}
+.config/hypr
+.config/waybar
+.config/ghostty
+.config/walker
+.config/elephant
+{{- end }}

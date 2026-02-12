@@ -1,0 +1,11 @@
+history = true
+
+[[entries]]
+default = true
+name = "DuckDuckGo"
+url = "https://duckduckgo.com/?q=%TERM%"
+
+[[entries]]
+default = false
+name = "Google"
+url = "https://www.google.com/search?q=%TERM%"

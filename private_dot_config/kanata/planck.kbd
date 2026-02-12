@@ -1,0 +1,62 @@
+(defcfg
+	process-unmapped-keys yes
+	danger-enable-cmd yes
+	linux-dev-names-include (
+        "AT Translated Set 2 keyboard"
+		"maehler handwired/maehler Keyboard"
+		"maehler Cygnus v1.0 Consumer Control"
+		"maehler Cygnus v1.0 System Control"
+		"maehler Cygnus v1.0"
+	)
+)
+
+(defvar
+	tap-time 200
+	hold-time 200
+)
+
+;; (defsrc
+;; 	tab l u y
+;;     e o
+;; )
+
+(defsrc
+	tab      e     y u i o
+	caps a s d f g h j k l scln
+)
+
+(deflayer base
+	@tabswe              _               _ _      _      _
+	@fnesc @a-mod @s-mod @d-mod @f-mod _ _ @j-mod @k-mod @l-mod @scln-mod
+)
+
+(deflayer colemak-swe
+	_ @eacc @ouml @auml _ _
+	_ _ _ _ _ _ _ _ _ @aring _
+)
+
+(deflayer qwerty-swe
+	_ up _ @aring @auml @ouml
+	_ _ left down right _ _ _ _ _ _
+)
+
+(defalias
+	tabswe (tap-hold-press $tap-time $hold-time tab (layer-toggle colemak-swe))
+	fnesc (tap-hold-press $tap-time $hold-time esc (layer-toggle qwerty-swe))
+
+	;; swedish characters; have to figure this out at some point
+	aring (fork (cmd wtype å) (cmd wtype Å) (lsft rsft))
+	auml (fork (cmd wtype ä) (cmd wtype Ä) (lsft rsft))
+	ouml (fork (cmd wtype ö) (cmd wtype Ö) (lsft rsft))
+    eacc (fork (cmd wtype é) (cmd wtype É) (lsft rsft))
+    oacc (fork (cmd wtype ó) (cmd wtype Ó) (lsft rsft))
+
+	a-mod (tap-hold $tap-time $hold-time a lsft) 
+	s-mod (tap-hold $tap-time $hold-time s lalt)
+	d-mod (tap-hold $tap-time $hold-time d lmet)
+	f-mod (tap-hold $tap-time $hold-time f lctl)
+	j-mod (tap-hold $tap-time $hold-time j rctl)
+	k-mod (tap-hold $tap-time $hold-time k rmet)
+	l-mod (tap-hold $tap-time $hold-time l ralt)
+	scln-mod (tap-hold $tap-time $hold-time scln rsft)
+)
