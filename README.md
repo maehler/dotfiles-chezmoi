@@ -1,5 +1,9 @@
 # chezmoi dotfiles
 
+## Setting up chezmoi
+
+RTFM: <https://www.chezmoi.io/>
+
 ## Data needed
 
 Some config files need some data. These are the keys that need to be defined in the data section of `~/.config/chezmoi/chezmoi.toml`:
