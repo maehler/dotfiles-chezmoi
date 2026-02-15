@@ -53,7 +53,8 @@ button {
 
 /* you can set a style on hover for any module like this */
 #pulseaudio:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #DD5D73;
+    color: #ffffff;
 }
 
 #workspaces button {
@@ -73,7 +74,8 @@ button {
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+    background-color: #f38ba8;
+    color: #000000;
 }
 
 #mode {
@@ -107,7 +109,8 @@ button {
 
 #clock {
     padding: 2px 10px;
-    background-color: #1d7c93;
+    background-color: #89dceb;
+    color: #000000;
 }
 
 #window,
@@ -128,6 +131,10 @@ button {
 #battery {
     background-color: #a6e3a1;
     color: #000000;
+}
+
+#battery:hover {
+    background-color: #6ed165;
 }
 
 #battery.charging, #battery.plugged {
@@ -195,11 +202,13 @@ label:focus {
 }
 
 #network {
-    background-color: #2980b9;
+    background-color: #89b4fa;
+    color: #000000;
 }
 
 #network:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #3f86f7;
+    color: #ffffff;
 }
 
 #network.disconnected {
@@ -207,7 +216,7 @@ label:focus {
 }
 
 #pulseaudio {
-    background-color: #f38ba8;
+    background-color: #eba0ac;
     color: #000000;
 }
 
@@ -245,6 +254,10 @@ label:focus {
     padding-right: 0;
 }
 
+#custom-power:hover {
+    background-color: #9e5af1;
+}
+
 #temperature {
     /* background-color: #f0932b; */
 }
@@ -268,6 +281,11 @@ label:focus {
 
 #idle_inhibitor {
     background-color: #2d3436;
+}
+
+#idle_inhibitor:hover {
+    background-color: #AAAAAA;
+    color: #000000;
 }
 
 #idle_inhibitor.activated {
