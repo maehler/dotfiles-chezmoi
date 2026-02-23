@@ -104,3 +104,13 @@ button {
   align-items: center;
   height: 100%;
 }
+
+.weather {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.weather-icon {
+  font-size: 1.3rem;
+}

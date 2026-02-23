@@ -152,6 +152,13 @@
         return <i className="nf nf-fa-thermometer_0"></i>
       }
 
+      function weatherIcon(status) {
+        if (status == "snow_night") {
+          return <i className="weather-icon nf nf-weather-night_snow" title={status}></i>
+        }
+        return status
+      }
+
       return (
         <div className="app">
           <div className="section left">
@@ -232,6 +239,7 @@
 
             {output.weather && (
               <div className="item weather">
+                {weatherIcon(output.weather.status)}
                 {tempIcon(output.weather.celsiusTemp)}{output.weather.celsiusTemp}&deg;C
               </div>
             )}
