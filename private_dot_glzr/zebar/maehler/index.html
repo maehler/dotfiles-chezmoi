@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="./styles.css" />
+  <script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
+    integrity="sha256-aS0B0wnsaDByLfE16h4MDCP1fQFccysd1YWOcV+gbBo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    import React, {
+      useState,
+      useEffect,
+    } from 'https://esm.sh/react@18?dev';
+    import {createRoot} from 'https://esm.sh/react-dom@18/client?dev';
+    import * as zebar from 'https://esm.sh/zebar@3.0';
+
+    const providers = zebar.createProviderGroup({
+      glazewm: {type: 'glazewm'},
+      date: {type: 'date', formatting: "yyyy-MM-dd"},
+      week: {type: 'date', formatting: "W"},
+      day: {type: 'date', formatting: "EEEE"},
+      time: {type: 'date', formatting: "T"},
+      cpu: {type: 'cpu'},
+      battery: {type: 'battery'},
+      memory: {type: 'memory'},
+      weather: {type: 'weather', latitude: 63.893572, longitude: 20.528944},
+      media: {type: 'media'},
+      audio: {type: 'audio'},
+    });
+
+
+    createRoot(document.getElementById('root')).render(<App />);
+
+    function VolumeControls(device) {
+      return (
+        <div className="item volume-controls">
+          <input type="range" onChange={() => setVolume(device.volume)} defaultValue={device.volume} min="0" max="100" />
+        </div>
+      )
+    }
+
+    function Volume({audio}) {
+      const [volume, setVolume] = useState(audio.defaultPlaybackDevice.volume);
+      const [showVolumeControls, setShowVolumeControls] = useState(false);
+      const [muted, setMuted] = useState(audio.defaultPlaybackDevice.isMuted);
+
+      useEffect(() => {
+        audio.setVolume(+volume, audio.defaultPlaybackDevice.deviceId);
+      }, [volume]);
+
+      useEffect(() => {
+        console.log(audio)
+        audio.setMute(muted, audio.defaultPlaybackDevice.deviceId);
+      }, [muted]);
+
+      useEffect(() => {
+        setVolume(audio.defaultPlaybackDevice.volume);
+      }, [audio.defaultPlaybackDevice.volume]);
+
+      useEffect(() => {
+        setMuted(audio.defaultPlaybackDevice.isMuted);
+      }, [audio.defaultPlaybackDevice.isMuted]);
+
+      function volumeIcon() {
+        if (volume === 0 || muted) {
+          return <i className="nf nf-fa-volume_xmark"></i>;
+        }
+        if (volume > 60) {
+          return <i className="nf nf-fa-volume_high"></i>;
+        }
+        if (volume > 25) {
+          return <i className="nf nf-fa-volume_low"></i>;
+        }
+        if (volume > 0) {
+          return <i className="nf nf-fa-volume_off"></i>;
+        }
+      }
+
+      return <div
+        className="item audio"
+      >
+        {showVolumeControls && (
+          <div className="volume-controls">
+            <button
+              onClick={() => setMuted(!muted)}
+              title={muted ? "Unmute" : "Mute"}
+            >
+              <i className={muted ? "nf nf-fa-volume_high" : "nf nf-fa-volume_xmark"}></i>
+            </button>
+            <input
+              type="range"
+              onChange={e => setVolume(e.target.value)}
+              value={volume}
+              min="0"
+              max="100"
+              disabled={muted}
+            >
+            </input>
+          </div>
+        )}
+        <button
+          onClick={() => setShowVolumeControls(!showVolumeControls)}
+          title={`${volume}%`}
+        >
+          {volumeIcon(volume)}
+        </button>
+      </div>;
+    }
+
+    function App() {
+      const [output, setOutput] = useState(providers.outputMap);
+
+      useEffect(() => {
+        providers.onOutput(() => setOutput(providers.outputMap));
+      }, []);
+
+      function getBatteryIcon(batteryOutput) {
+        if (batteryOutput.chargePercent > 90) {
+          return <i className="nf nf-fa-battery_4"></i>;
+        }
+        if (batteryOutput.chargePercent > 70) {
+          return <i className="nf nf-fa-battery_3"></i>;
+        }
+        if (batteryOutput.chargePercent > 40) {
+          return <i className="nf nf-fa-battery_2"></i>;
+        }
+        if (batteryOutput.chargePercent > 20) {
+          return <i className="nf nf-fa-battery_1"></i>;
+        }
+        return <i className="nf nf-fa-battery_0"></i>;
+      }
+
+      function tempIcon(temp) {
+        if (temp > 25) {
+          return <i className="nf nf-fa-thermometer_4"></i>
+        }
+        if (temp > 18) {
+          return <i className="nf nf-fa-thermometer_3"></i>
+        }
+        if (temp > 14) {
+          return <i className="nf nf-fa-thermometer_2"></i>
+        }
+        if (temp > 10) {
+          return <i className="nf nf-fa-thermometer_1"></i>
+        }
+        return <i className="nf nf-fa-thermometer_0"></i>
+      }
+
+      return (
+        <div className="app">
+          <div className="section left">
+            {output.glazewm && (
+              <div className="item workspaces">
+                {output.glazewm.currentWorkspaces.map(workspace => (
+                  <button
+                    className={`workspace ${workspace.hasFocus && "focused"}`}
+                    onClick={() =>
+                      output.glazewm.runCommand(`focus --workspace ${workspace.name}`)
+                    }
+                    key={workspace.name}
+                  >
+                    {workspace.displayName ?? workspace.name}
+                  </button>
+                ))}
+              </div>
+            )}
+            {output.glazewm && (
+              <div className="item tiling-direction">
+                <i
+                  className={`nf ${output.glazewm.tilingDirection === "horizontal" ? "nf-md-swap_horizontal" : "nf-md-swap_vertical"}`}
+                  onClick={() => output.glazewm.runCommand("toggle-tiling-direction")}
+                ></i>
+              </div>
+            )}
+          </div>
+
+          <div className="section center">
+            {output.week && (
+              <div className="item week">
+                Week {output.week.formatted}
+              </div>
+            )}
+            {output.date && (
+              <div className="item date">
+                {output.date.formatted}
+              </div>
+            )}
+            {output.time && (
+              <div className="item time">
+                {output.time.formatted}
+              </div>
+            )}
+          </div>
+
+          <div className="section right">
+
+            {output.audio && <Volume audio={output.audio} />}
+
+            {output.media && false && (
+              <div className="item media">
+                Media: {output.media.currentSession?.title}-
+                {output.media.currentSession?.artist}
+                <button onClick={() => output.media.togglePlayPause()}>
+                  ⏯
+                </button>
+              </div>
+            )}
+
+            {output.cpu && (
+              <div className="item cpu">
+                <i className="nf nf-oct-cpu"></i>{Math.round(output.cpu.usage)}%
+              </div>
+            )}
+
+            {output.memory && (
+              <div className="item memory">
+                <i className="nf nf-fa-memory"></i>{Math.round(output.memory.usage)}%
+              </div>
+            )}
+
+            {output.battery && (
+              <div className="item battery">
+                {getBatteryIcon(output.battery)}{Math.round(output.battery.chargePercent)}%
+              </div>
+            )}
+
+            {output.weather && (
+              <div className="item weather">
+                {tempIcon(output.weather.celsiusTemp)}{output.weather.celsiusTemp}&deg;C
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+  </script>
+</body>
+
+</html>
