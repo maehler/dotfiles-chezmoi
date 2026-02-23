@@ -1,6 +1,9 @@
 README.md
 TODO.md
 LICENSE
+{{- if ne .chezmoi.os "windows" }}
+.glzr
+{{- end }}
 {{- if ne .chezmoi.os "linux" }}
 .config/hypr
 .config/waybar
