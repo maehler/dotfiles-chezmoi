@@ -162,6 +162,12 @@
         return status
       }
 
+      function bindingModeIcon(name) {
+        if (name === "resize") {
+          return <i className="nf nf-md-resize" title={name} key={name}></i>
+        }
+      }
+
       return (
         <div className="app">
           <div className="section left">
@@ -186,6 +192,13 @@
                   className={`nf ${output.glazewm.tilingDirection === "horizontal" ? "nf-md-swap_horizontal" : "nf-md-swap_vertical"}`}
                   onClick={() => output.glazewm.runCommand("toggle-tiling-direction")}
                 ></i>
+              </div>
+            )}
+            {output.glazewm && output.glazewm.bindingModes.length > 0 && (
+              <div className="item binding-modes">
+                {
+                  output.glazewm.bindingModes.map(bm => bindingModeIcon(bm.name))
+                }
               </div>
             )}
           </div>
