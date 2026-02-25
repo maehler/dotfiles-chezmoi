@@ -99,6 +99,10 @@ button {
   margin-right: 0;
 }
 
+.item .icon:nth-last-of-type(1) {
+  margin-right: 4px;
+}
+
 .media {
   white-space: nowrap;
 }

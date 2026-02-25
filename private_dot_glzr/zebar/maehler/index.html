@@ -122,49 +122,49 @@
 
       function getBatteryIcon(batteryOutput) {
         if (batteryOutput.chargePercent > 90) {
-          return <i className="nf nf-fa-battery_4"></i>;
+          return <i className="icon nf nf-fa-battery_4"></i>;
         }
         if (batteryOutput.chargePercent > 70) {
-          return <i className="nf nf-fa-battery_3"></i>;
+          return <i className="icon nf nf-fa-battery_3"></i>;
         }
         if (batteryOutput.chargePercent > 40) {
-          return <i className="nf nf-fa-battery_2"></i>;
+          return <i className="icon nf nf-fa-battery_2"></i>;
         }
         if (batteryOutput.chargePercent > 20) {
-          return <i className="nf nf-fa-battery_1"></i>;
+          return <i className="icon nf nf-fa-battery_1"></i>;
         }
-        return <i className="nf nf-fa-battery_0"></i>;
+        return <i className="icon nf nf-fa-battery_0"></i>;
       }
 
       function tempIcon(temp) {
         if (temp > 25) {
-          return <i className="nf nf-fa-thermometer_4"></i>
+          return <i className="icon nf nf-fa-thermometer_4"></i>
         }
         if (temp > 18) {
-          return <i className="nf nf-fa-thermometer_3"></i>
+          return <i className="icon nf nf-fa-thermometer_3"></i>
         }
         if (temp > 14) {
-          return <i className="nf nf-fa-thermometer_2"></i>
+          return <i className="icon nf nf-fa-thermometer_2"></i>
         }
         if (temp > 10) {
-          return <i className="nf nf-fa-thermometer_1"></i>
+          return <i className="icon nf nf-fa-thermometer_1"></i>
         }
-        return <i className="nf nf-fa-thermometer_0"></i>
+        return <i className="icon nf nf-fa-thermometer_0"></i>
       }
 
       function weatherIcon(status) {
         if (status == "snow_night") {
-          return <i className="weather-icon nf nf-weather-night_snow" title={status}></i>
+          return <i className="icon weather-icon nf nf-weather-night_snow" title={status}></i>
         }
         if (status == "cloudy_day") {
-          return <i className="weather-icon nf nf-weather-day_cloudy" title={status}></i>
+          return <i className="icon weather-icon nf nf-weather-day_cloudy" title={status}></i>
         }
         return status
       }
 
       function bindingModeIcon(name) {
         if (name === "resize") {
-          return <i className="nf nf-md-resize" title={name} key={name}></i>
+          return <i className="icon nf nf-md-resize" title={name} key={name}></i>
         }
       }
 
@@ -189,7 +189,7 @@
             {output.glazewm && (
               <div className="item tiling-direction">
                 <i
-                  className={`nf ${output.glazewm.tilingDirection === "horizontal" ? "nf-md-swap_horizontal" : "nf-md-swap_vertical"}`}
+                  className={`icon nf ${output.glazewm.tilingDirection === "horizontal" ? "nf-md-swap_horizontal" : "nf-md-swap_vertical"}`}
                   onClick={() => output.glazewm.runCommand("toggle-tiling-direction")}
                 ></i>
               </div>
@@ -237,26 +237,26 @@
 
             {output.cpu && (
               <div className="item cpu">
-                <i className="nf nf-oct-cpu"></i>{Math.round(output.cpu.usage)}%
+                <i className="icon nf nf-oct-cpu"></i><span>{Math.round(output.cpu.usage)}%</span>
               </div>
             )}
 
             {output.memory && (
               <div className="item memory">
-                <i className="nf nf-fa-memory"></i>{Math.round(output.memory.usage)}%
+                <i className="icon nf nf-fa-memory"></i><span>{Math.round(output.memory.usage)}%</span>
               </div>
             )}
 
             {output.battery && (
               <div className="item battery">
-                {getBatteryIcon(output.battery)}{Math.round(output.battery.chargePercent)}%
+                {getBatteryIcon(output.battery)}<span>{Math.round(output.battery.chargePercent)}%</span>
               </div>
             )}
 
             {output.weather && (
               <div className="item weather">
                 {weatherIcon(output.weather.status)}
-                {tempIcon(output.weather.celsiusTemp)}{output.weather.celsiusTemp}&deg;C
+                {tempIcon(output.weather.celsiusTemp)}<span>{output.weather.celsiusTemp}&deg;C</span>
               </div>
             )}
           </div>
