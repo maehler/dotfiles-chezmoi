@@ -237,19 +237,19 @@
 
             {output.cpu && (
               <div className="item cpu">
-                <i className="icon nf nf-oct-cpu"></i><span>{Math.round(output.cpu.usage)}%</span>
+                <i className="icon nf nf-oct-cpu"></i><span className="cpu-usage">{Math.round(output.cpu.usage)}%</span>
               </div>
             )}
 
             {output.memory && (
               <div className="item memory">
-                <i className="icon nf nf-fa-memory"></i><span>{Math.round(output.memory.usage)}%</span>
+                <i className="icon nf nf-fa-memory"></i><span className="memory-usage">{Math.round(output.memory.usage)}%</span>
               </div>
             )}
 
             {output.battery && (
               <div className="item battery">
-                {getBatteryIcon(output.battery)}<span>{Math.round(output.battery.chargePercent)}%</span>
+                {getBatteryIcon(output.battery)}<span className="battery-level">{Math.round(output.battery.chargePercent)}%</span>
               </div>
             )}
 
