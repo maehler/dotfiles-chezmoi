@@ -49,6 +49,7 @@
       const [volume, setVolume] = useState(audio.defaultPlaybackDevice.volume);
       const [showVolumeControls, setShowVolumeControls] = useState(false);
       const [muted, setMuted] = useState(audio.defaultPlaybackDevice.isMuted);
+      const [volumeControlActive, setVolumeControlActive] = useState(false);
 
       useEffect(() => {
         audio.setVolume(+volume, audio.defaultPlaybackDevice.deviceId);
@@ -82,28 +83,25 @@
         }
       }
 
-      return <div
-        className="item audio"
-      >
-        {showVolumeControls && (
-          <div className="volume-controls">
-            <button
-              onClick={() => setMuted(!muted)}
-              title={muted ? "Unmute" : "Mute"}
-            >
-              <i className={muted ? "nf nf-fa-volume_high" : "nf nf-fa-volume_xmark"}></i>
-            </button>
-            <input
-              type="range"
-              onChange={e => setVolume(e.target.value)}
-              value={volume}
-              min="0"
-              max="100"
-              disabled={muted}
-            >
-            </input>
-          </div>
-        )}
+      return <div className="item audio" >
+        <div className={`volume-controls ${showVolumeControls ? "active" : ""}`} >
+          <button
+            onClick={() => setMuted(!muted)}
+            title={muted ? "Unmute" : "Mute"}
+            disabled={!showVolumeControls}
+          >
+            <i className={muted ? "nf nf-fa-volume_high" : "nf nf-fa-volume_xmark"}></i>
+          </button>
+          <input
+            type="range"
+            onChange={e => setVolume(e.target.value)}
+            value={volume}
+            min="0"
+            max="100"
+            disabled={muted || !showVolumeControls}
+          >
+          </input>
+        </div>
         <button
           onClick={() => setShowVolumeControls(!showVolumeControls)}
           title={`${volume}%`}
