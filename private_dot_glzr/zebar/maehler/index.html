@@ -32,6 +32,7 @@
       weather: {type: 'weather', latitude: 63.893572, longitude: 20.528944},
       media: {type: 'media'},
       audio: {type: 'audio'},
+      network: {type: 'network'},
     });
 
 
@@ -108,6 +109,53 @@
         >
           {volumeIcon(volume)}
         </button>
+      </div>;
+    }
+
+    function Network({network}) {
+      const [active, setActive] = useState(false);
+      const [tx, setTx] = useState(0);
+      const [rx, setRx] = useState(0);
+
+      useEffect(() => {
+        setTx(network.traffic.transmitted.siValue);
+        console.log(tx);
+      }, [network.traffic.transmitted])
+
+      useEffect(() => {
+        setRx(network.traffic.received.siValue);
+      }, [network.traffic.received])
+
+      function networkIcon() {
+        const interfaceType = network.defaultInterface.type
+        const description = network.defaultInterface.description
+        const signalStrength = network.defaultGateway.signalStrength
+        if (interfaceType == "ethernet") {
+          return <i className="icon nf nf-fa-ethernet" title={network.description}></i>
+        }
+        if (interfaceType == "wifi" && signalStrength > 75) {
+          return <i className="icon nf nf-md-wifi_strength_4" title={`${description} (${signalStrength}%)`}></i>
+        }
+        if (interfaceType == "wifi" && signalStrength > 50) {
+          return <i className="icon nf nf-md-wifi_strength_3" title={`${description} (${signalStrength}%)`}></i>
+        }
+        if (interfaceType == "wifi" && signalStrength > 25) {
+          return <i className="icon nf nf-md-wifi_strength_2" title={`${description} (${signalStrength}%)`}></i>
+        }
+        if (interfaceType == "wifi" && signalStrength > 0) {
+          return <i className="icon nf nf-md-wifi_strength_1" title={`${description} (${signalStrength}%)`}></i>
+        }
+        return <i className="icon nf nf-md-wifi_strength_off" title={`${description} (${signalStrength}%)`}></i>
+      }
+
+      return <div className="item network" onClick={() => setActive(!active)}>
+        {networkIcon()}
+        {active && (
+          <div>
+            <span><i className="nf nf-md-download"></i>{`${Math.round(rx, 2)} ${network.traffic.received.siUnit}/s`}</span>
+            <span><i className="nf nf-md-upload"></i>{`${Math.round(tx, 2)} ${network.traffic.transmitted.siUnit}/s`}</span>
+          </div>
+        )}
       </div>;
     }
 
@@ -231,6 +279,10 @@
                   ⏯
                 </button>
               </div>
+            )}
+
+            {output.network && (
+              <Network network={output.network} />
             )}
 
             {output.cpu && (

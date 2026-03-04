@@ -160,10 +160,21 @@ button {
   }
 }
 
+.network,
 .weather {
   display: flex;
   align-items: center;
   height: 100%;
+  gap: 4px;
+}
+
+.network {
+  cursor: pointer;
+
+  div {
+    display: flex;
+    gap: 4px;
+  }
 }
 
 .weather-icon {
