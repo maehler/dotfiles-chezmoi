@@ -208,6 +208,9 @@
         if (status == "cloudy_day") {
           return <i className="icon weather-icon nf nf-weather-day_cloudy" title={status}></i>
         }
+        if (status == "clear_day") {
+          return <i className="icon weather-icon nf nf-weather-day_sunny" title={status}></i>
+        }
         return status
       }
 
