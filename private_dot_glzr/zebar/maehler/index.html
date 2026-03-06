@@ -129,7 +129,7 @@
       function networkIcon() {
         const interfaceType = network.defaultInterface.type
         const description = network.defaultInterface.description
-        const signalStrength = network.defaultGateway.signalStrength
+        const signalStrength = network.defaultGateway?.signalStrength
         if (interfaceType == "ethernet") {
           return <i className="icon nf nf-fa-ethernet" title={network.description}></i>
         }
