@@ -131,7 +131,7 @@
         const description = network.defaultInterface.description
         const signalStrength = network.defaultGateway?.signalStrength
         if (interfaceType == "ethernet") {
-          return <i className="icon nf nf-fa-ethernet" title={network.description}></i>
+          return <i className="icon nf nf-fa-ethernet" title={description}></i>
         }
         if (interfaceType == "wifi" && signalStrength > 75) {
           return <i className="icon nf nf-md-wifi_strength_4" title={`${description} (${signalStrength}%)`}></i>
