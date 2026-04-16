@@ -216,6 +216,9 @@
         if (status == "clear_day") {
           return <i className="icon weather-icon nf nf-weather-day_sunny" title={status}></i>
         }
+        if (status == "clear_night") {
+          return <i className="icon weather-icon nf nf-weather-night_clear" title={status}></i>
+        }
         return status
       }
 
